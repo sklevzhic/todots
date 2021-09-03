@@ -1,5 +1,7 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {ToDo} from "../../types/todo";
+import {ToDoApi} from "../../api/toDoApi";
+import {Axios} from "../../axios";
 
 export interface CounterState {
     todos: ToDo[]
@@ -33,17 +35,30 @@ const initialState: CounterState = {
         }],
 }
 
+export const fetchAddToDo = createAsyncThunk(
+    'todos/fetchCreateToDoStatus',
+    async ({title}: { title: string }) => {
+        try {
+            const room = await ToDoApi(Axios).addToDo({title});
+            return room
+        } catch (e) {
+            throw Error('Ошибка при добавлении задачи')
+        }
+    }
+)
+
 export const todosSlice = createSlice({
     name: 'todos',
     initialState,
-    reducers: {
-        addToDo: (state, action: PayloadAction<ToDo>) => {
+    reducers: {},
+    extraReducers: {
+        [fetchAddToDo.fulfilled.type]: (state, action: PayloadAction<ToDo>) => {
             state.todos.push(action.payload)
         },
-    },
+        [fetchAddToDo.rejected.type]: (_, action) => {
+            console.log(action)
+        }
+    }
 })
-
-// Action creators are generated for each case reducer function
-export const {addToDo} = todosSlice.actions
 
 export const TodosReducer = todosSlice.reducer
