@@ -1,18 +1,16 @@
-import {combineReducers, configureStore, Store} from '@reduxjs/toolkit'
-import {TodosReducer} from "./slices/todos-slice";
+import {AnyAction, applyMiddleware, createStore } from "@reduxjs/toolkit";
+import {Context, createWrapper, MakeStore } from "next-redux-wrapper";
+import thunk, { ThunkDispatch } from "redux-thunk";
+import {reducer, RootState} from "./reducers";
+import {composeWithDevTools} from "redux-devtools-extension";
 
-const rootReducer = combineReducers({
-    todos: TodosReducer
-})
+const makeStore: MakeStore<RootState>
+    = (context: Context) => createStore(reducer, composeWithDevTools(
+        applyMiddleware(thunk),
+        // other store enhancers if any
+    ));
 
-// export type RootState = ReturnType<typeof rootReducer>
+// export an assembled wrapper
+export const wrapper = createWrapper<RootState>(makeStore, {debug: true});
 
-export const makeStore = (): Store =>
-    configureStore({
-    reducer: rootReducer
-})
-
-// export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
-
-
-
+export type NextThunkDispatch = ThunkDispatch<RootState, void, AnyAction>

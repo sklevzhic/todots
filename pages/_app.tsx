@@ -1,19 +1,28 @@
-import '../styles/globals.css'
-import withRedux from 'next-redux-wrapper'
-import App, {AppContext, AppProps} from 'next/app'
-import { makeStore } from '../store'
+import React, {FC} from 'react';
+import {AppProps} from 'next/app';
+import {wrapper} from "../store";
+import Head from 'next/head';
 
-class MyApp extends App {
-    static async getInitialProps({Component, ctx}: AppContext) {
-        const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {}
-        return {pageProps}
+import {theme} from '../theme';
+import {MuiThemeProvider, CssBaseline} from '@material-ui/core';
 
-    }
-    render() {
-      const { Component, pageProps } = this.props;
+const WrappedApp: FC<AppProps> = ({Component, pageProps}) => (
+        <>
+            <Head>
+                <title>RJournal</title>
+                <link rel="icon" href="/favicon.ico"/>
+                <link rel="preconnect" href="https://fonts.googleapis.com"/>
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin=""/>
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400;1,500;1,700;1,900&display=swap"
+                    rel="stylesheet"></link>
+            </Head>
+            <MuiThemeProvider theme={theme}>
+                <Component {...pageProps} />
+            </MuiThemeProvider>
 
-      return <Component {...pageProps} />
-    }
-}
+        </>
+    )
+;
 
-export default withRedux(makeStore)(MyApp)
+export default wrapper.withRedux(WrappedApp);
