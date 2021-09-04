@@ -1,4 +1,4 @@
-import {ToDo, TodoAction, ToDoActionTypes} from "../../types/todo";
+import {AddToDoType, TodoAction, ToDoActionTypes} from "../../types/todo";
 import {Dispatch} from "react";
 import axios from "axios";
 
@@ -15,7 +15,7 @@ export const fetchTodos = () => {
     }
 }
 
-export const addTodo = (obj: ToDo) => {
+export const addTodo = (obj: AddToDoType) => {
     return async (dispatch: Dispatch<TodoAction>) => {
         try {
             const response = await axios.post('http://localhost:3004/todos', obj)

@@ -1,8 +1,14 @@
 export interface ToDo {
-    id?: number | null,
+    id: number,
     title: string,
     completed: boolean
 }
+
+export interface AddToDoType {
+    title: string,
+    completed: boolean
+}
+
 
 export interface TodoState {
     todos: ToDo[];

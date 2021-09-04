@@ -1,10 +1,10 @@
-import {Button, List, ListItem, Input} from '@material-ui/core';
+import {Button, Input} from '@material-ui/core';
 import React, {useState} from 'react'
 import {useInput} from "../../hooks/useInput";
 import {useActions} from '../../hooks/useActions';
 
 import styles from "./TodoList.module.scss"
-import {ToDo} from '../../types/todo';
+import {AddToDoType} from '../../types/todo';
 
 interface AddTodoItemProps {
 
@@ -15,7 +15,7 @@ export const AddToDo: React.FC<AddTodoItemProps> = () => {
 
     const {addTodo} = useActions()
     const sendTodo = () => {
-        const todo: ToDo = {
+        const todo: AddToDoType = {
             title: title.value,
             completed: false,
         }
