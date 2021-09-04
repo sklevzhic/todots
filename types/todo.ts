@@ -1,6 +1,5 @@
 export interface ToDo {
-    userId: number,
-    id: number,
+    id?: number | null,
     title: string,
     completed: boolean
 }
@@ -13,6 +12,9 @@ export interface TodoState {
 export enum ToDoActionTypes {
     FETCH_TODOS = 'FETCH_TODOS',
     FETCH_TODOS_ERROR = 'FETCH_TODOS_ERROR',
+    DELETE_TODO = 'DELETE_TODO',
+    UPDATE_TODO = 'UPDATE_TODO',
+    ADD_TODO = 'ADD_TODO',
 }
 
 interface FetchToDosAction {
@@ -25,5 +27,23 @@ interface FetchToDosErrorAction {
     payload: string
 }
 
+interface DeleteToDoAction {
+    type: ToDoActionTypes.DELETE_TODO,
+    payload: number
+}
 
-export type TodoAction = FetchToDosAction | FetchToDosErrorAction
+interface AddToDoAction {
+    type: ToDoActionTypes.ADD_TODO,
+    payload: ToDo
+}
+
+interface UpdateToDoAction {
+    type: ToDoActionTypes.UPDATE_TODO,
+    payload: {
+        id: number,
+        completed: boolean
+    }
+}
+
+
+export type TodoAction = FetchToDosAction | FetchToDosErrorAction | DeleteToDoAction | AddToDoAction | UpdateToDoAction

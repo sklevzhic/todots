@@ -1,5 +1,6 @@
 import React from 'react'
-import {Container, Grid, Paper} from "@material-ui/core";
+import {Container} from "@material-ui/core";
+import {ReactChildren} from 'react'
 
 interface MainLayoutProps {
 
@@ -7,6 +8,6 @@ interface MainLayoutProps {
 
 export const MainLayout: React.FC<MainLayoutProps> = ({children}) => {
     return <Container maxWidth="sm">
-        {children}
+        <>{children}</>
     </Container>
 };

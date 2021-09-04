@@ -3,38 +3,37 @@ import {useTypedSelector} from "../hooks/useTypedSelector";
 import {NextThunkDispatch, wrapper} from "../store";
 import {fetchTodos} from "../store/actions-creators/todos";
 import {MainLayout} from "../layouts/mainLayout";
-import {Grid, Paper, Typography, Button, TextField, List, ListItem} from "@material-ui/core";
+import {Box, Grid, Paper, Typography} from "@material-ui/core";
 import React from "react";
-
+import {TodoList} from '../components/TodoList';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
+import {AddToDo} from '../components/AddToDo';
+import styles from '../styles/Home.module.scss'
 
 const Home: NextPage = (props) => {
     const {todos} = useTypedSelector(state => state.todo)
 
     return (
         <MainLayout>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} style={{marginTop: "20px"}}>
                 <Grid item xs={12}>
                     <Paper>
-                        <Typography>Список задач</Typography>
+                        <Box p={2}>
+                            <Typography className={styles.toDoListTitle} variant={"h6"}>To Do List</Typography>
+                            <AddToDo/>
+                        </Box>
                     </Paper>
                 </Grid>
-
                 <Grid item xs={12}>
                     <Paper>
-                        <TextField></TextField>
-                        <Button variant={"contained"} color={"primary"}>Send</Button>
-                    </Paper>
-                </Grid>
-
-                <Grid item xs={12}>
-                    <Paper>
-                        <List>
-                            {
-                                todos.map(el => {
-                                    return <ListItem button key={el.id}>el.title</ListItem>
-                                })
-                            }
-                        </List>
+                        {
+                            todos.length !== 0
+                                ? <TodoList todoList={todos}/>
+                                : <div className={styles.listWrapper}>
+                                    <Typography>Список задач пуст</Typography>
+                                    <DoneAllIcon className={styles.icon}/>
+                                </div>
+                        }
 
                     </Paper>
                 </Grid>
